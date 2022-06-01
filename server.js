@@ -5,37 +5,54 @@ const PORT = 8000;
 const rappers = {
   '21 savage': {
     'age': 29,
-    'birthname': 'Shéyaa Bin Abraham-Joseph',
-    'birthlocation': 'London, England'
+    'birthName': 'Shéyaa Bin Abraham-Joseph',
+    'birthLocation': 'London, England'
   },
   'chance the rapper': {
     'age': 29,
-    'birthname': 'Chancellor Bennett',
-    'birthlocation': 'Chicago, Illinois'
+    'birthName': 'Chancellor Bennett',
+    'birthLocation': 'Chicago, Illinois'
   },
   'dylan': {
     'age': 29,
-    'birthname': 'Dylan',
-    'birthlocation': 'Dylan'
+    'birthName': 'Dylan',
+    'birthLocation': 'Dylan'
+  },
+  'blank': {
+    'age': '',
+    'birthName': '',
+    'birthLocation': ''
   }
 };
+
+app.set('view engine', 'ejs');
 
 app.use(cors());
 
 app.get('/', (request, response) => {
-  response.sendFile(__dirname + '/index.html');
+  let rapper = rappers.blank;
+
+  if (request.query.rapperName) {
+    let rapperName = request.query.rapperName.toLowerCase().trim();
+    if (rappers[rapperName]) {
+      rapper = rappers[rapperName];
+    }
+  }
+
+  response.render('index.ejs', {rapper});
 });
 
 app.get('/api/:rapperName', (request, response) => {
   let rapperName = request.params.rapperName.toLowerCase().trim();
-  let rapper;
+  let apiResponse;
 
   if (rappers[rapperName]) {
-    rapper = rappers[rapperName];
+    apiResponse = rappers[rapperName];
   } else {
-    rapper = rappers['dylan'];
+    apiResponse = rappers['dylan'];
   }
-  response.json(rapper);
+  response.json(apiResponse);
+
 });
 
 app.listen(process.env.PORT || PORT, () => {
