@@ -13,10 +13,10 @@ const rappers = {
     'birthName': 'Chancellor Bennett',
     'birthLocation': 'Chicago, Illinois'
   },
-  'dylan': {
-    'age': 29,
-    'birthName': 'Dylan',
-    'birthLocation': 'Dylan'
+  'unknown': {
+    'age': 0,
+    'birthName': 'unknown',
+    'birthLocation': 'unknown'
   },
   'blank': {
     'age': '',
@@ -31,30 +31,39 @@ app.use(cors());
 
 app.get('/', (request, response) => {
   let rapper = rappers.blank;
+  const requestData = request.query.rapperName;
 
-  if (request.query.rapperName) {
-    let rapperName = request.query.rapperName.toLowerCase().trim();
-    if (rappers[rapperName]) {
-      rapper = rappers[rapperName];
-    }
+  if (requestData) {
+    const rapperName = parseRapperName(requestData);
+    rapper = getRapper(rapperName);
   }
 
   response.render('index.ejs', {rapper});
 });
 
 app.get('/api/:rapperName', (request, response) => {
-  let rapperName = request.params.rapperName.toLowerCase().trim();
-  let apiResponse;
+  const rapperName = parseRapperName(request.params.rapperName);
+  const rapper = getRapper(rapperName);
 
-  if (rappers[rapperName]) {
-    apiResponse = rappers[rapperName];
-  } else {
-    apiResponse = rappers['dylan'];
-  }
-  response.json(apiResponse);
+  response.json(rapper);
 
 });
 
 app.listen(process.env.PORT || PORT, () => {
   console.log(`The server is running on port ${PORT}. You'd better go catch it!`);
 });
+
+function parseRapperName(requestData) {
+  return requestData.toLowerCase().trim();
+}
+
+function getRapper(rapperName) {
+  if (rappers[rapperName]) {
+    return rappers[rapperName];
+  }
+    return rappers['unknown'];
+}
+
+// app.get('/', (req, res) => {
+//   res.sendFile(__dirname + '/index.html');
+// });
