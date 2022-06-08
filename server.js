@@ -13,6 +13,11 @@ const rappers = {
     'birthName': 'Chancellor Bennett',
     'birthLocation': 'Chicago, Illinois'
   },
+  'ludacris': {
+    'age': 44,
+    'birthName': 'Christopher Brian Bridges',
+    'birthLocation': 'Champaign, Illinois'
+  },
   'unknown': {
     'age': 0,
     'birthName': 'unknown',
