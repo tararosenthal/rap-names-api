@@ -18,6 +18,11 @@ const rappers = {
     'birthName': 'Christopher Brian Bridges',
     'birthLocation': 'Champaign, Illinois'
   },
+  'nelly': {
+    'age': 47,
+    'birthName': 'Cornell Iral Haynes Jr.',
+    'birthLocation': 'Austin, Texas'
+  },
   'unknown': {
     'age': 0,
     'birthName': 'unknown',
